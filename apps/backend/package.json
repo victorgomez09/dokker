@@ -1,0 +1,60 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.ts",
+  "type": "module",
+  "binary": {
+    "module_name": "backend",
+    "module_path": "./dist/",
+    "host": "https://localhost"
+  },
+  "scripts": {
+    "dev": "tsup src/app.ts --watch --onSuccess \"cp package.json dist/ && node dist/app.cjs\"",
+    "dev:tsx": "tsx watch -r dotenv/config src/app.ts",
+    "build": "tsup src/app.ts --onSuccess \"cp package.json dist/\"",
+    "start": "node dist/app.cjs",
+    "setup": "tsx -r dotenv/config src/setup.ts && sleep 5 && pnpm run migration:run",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate",
+    "migration:run": "tsx -r dotenv/config src/migration.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.22.0",
+  "dependencies": {
+    "@better-auth/api-key": "1.5.4",
+    "@better-auth/sso": "1.5.4",
+    "@better-auth/utils": "0.3.1",
+    "@dokploy/server": "workspace:*",
+    "@hono/node-server": "^1.19.9",
+    "@hono/zod-validator": "0.7.6",
+    "better-auth": "1.5.4",
+    "bullmq": "5.67.3",
+    "dotenv": "^17.3.1",
+    "drizzle-orm": "0.45.1",
+    "hono": "^4.12.2",
+    "lodash": "4.17.21",
+    "nanoid": "3.3.11",
+    "node-pty": "1.0.0",
+    "postgres": "3.4.4",
+    "public-ip": "6.0.2",
+    "slugify": "^1.6.6",
+    "ssh2": "1.15.0",
+    "toml": "3.0.0",
+    "ws": "8.16.0",
+    "yaml": "2.8.1",
+    "zod": "^4.3.6"
+  },
+  "devDependencies": {
+    "@types/lodash": "4.17.4",
+    "@types/node": "^24.10.13",
+    "@types/pg": "^8.20.0",
+    "@types/ws": "8.5.10",
+    "drizzle-kit": "^0.31.9",
+    "tsup": "^8.5.1",
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3"
+  }
+}
