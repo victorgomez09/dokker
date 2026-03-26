@@ -94,6 +94,12 @@ export const initializeStandaloneTraefik = async ({
 	};
 
 	const docker = await getRemoteDocker(serverId);
+
+	try {
+		const oldContainer = docker.getContainer("dokploy-traefik");
+		await oldContainer.remove({ force: true });
+	} catch (e) { }
+
 	try {
 		await docker.pull(imageName);
 		await new Promise((resolve) => setTimeout(resolve, 3000));
@@ -105,7 +111,7 @@ export const initializeStandaloneTraefik = async ({
 		const container = docker.getContainer(containerName);
 		await container.remove({ force: true });
 		await new Promise((resolve) => setTimeout(resolve, 5000));
-	} catch {}
+	} catch { }
 
 	try {
 		await docker.createContainer(settings);
@@ -258,22 +264,22 @@ export const getDefaultTraefikConfig = () => {
 		providers: {
 			...(process.env.NODE_ENV === "development"
 				? {
-						docker: {
-							defaultRule:
-								"Host(`{{ trimPrefix `/` .Name }}.docker.localhost`)",
-						},
-					}
+					docker: {
+						defaultRule:
+							"Host(`{{ trimPrefix `/` .Name }}.docker.localhost`)",
+					},
+				}
 				: {
-						swarm: {
-							exposedByDefault: false,
-							watch: true,
-						},
-						docker: {
-							exposedByDefault: false,
-							watch: true,
-							network: "dokploy-network",
-						},
-					}),
+					swarm: {
+						exposedByDefault: false,
+						watch: true,
+					},
+					docker: {
+						exposedByDefault: false,
+						watch: true,
+						network: "dokploy-network",
+					},
+				}),
 			file: {
 				directory: "/etc/dokploy/traefik/dynamic",
 				watch: true,
