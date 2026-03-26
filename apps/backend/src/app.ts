@@ -37,6 +37,7 @@ import deploymentRoutes from "@/routes/deployment";
 import destinationRoutes from "@/routes/destination";
 import dockerRoutes from "@/routes/docker";
 import domainRoutes from "@/routes/domain";
+import environmentRoutes from "@/routes/environment";
 
 // 1. Configuración Inicial
 config({ path: ".env" });
@@ -83,6 +84,7 @@ const startServer = async () => {
         app.route('/api/destination', destinationRoutes);
         app.route('/api/docker', dockerRoutes);
         app.route('/api/domain', domainRoutes);
+        app.route('/api/environment', environmentRoutes);
 
         // 4. Arrancar Servidor usando @hono/node-server
         // Esto nos permite obtener la instancia de 'server' para los WebSockets
